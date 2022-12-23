@@ -1,5 +1,6 @@
 package br.com.banco.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -11,8 +12,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.banco.model.Conta;
+import br.com.banco.model.dto.DepositoDto;
+import br.com.banco.model.dto.TransferenciaDto;
 import br.com.banco.repositorios.ContaRepositorio;
-import br.com.banco.service.exception.ValorDepositoInvalidoException;
+import br.com.banco.service.exception.ValorInvalidoException;
 
 @Service
 public class ContaService {
@@ -52,12 +55,42 @@ public class ContaService {
         }
     }
 
-    public Conta deposita(int idConta, double valor){
-        if(valor <= 0){
-            throw new ValorDepositoInvalidoException();
+    public Conta deposita(DepositoDto dto){
+        try {            
+            Conta conta = contaRepositorio.getReferenceById(dto.getIdConta());
+            validaValorDeposito(dto.getValor());
+            conta.deposita(dto.getValor());
+            return contaRepositorio.save(conta);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Nenhuma conta localizada com o ID " + dto.getIdConta() +".");
         }
-        Conta conta = contaRepositorio.getReferenceById(idConta);
-        conta.deposita(valor);
-        return contaRepositorio.save(conta);
+    }
+
+    public List<Conta> transfere(TransferenciaDto dto){
+        try {
+            Conta emissor = contaRepositorio.getReferenceById(dto.getIdContaEmissora());
+            Conta destino = contaRepositorio.getReferenceById(dto.getIdContaDestino());
+            validaValorDeposito(dto.getValor());
+            validaValorSaque(emissor, dto.getValor());
+            emissor.saca(dto.getValor());
+            destino.deposita(dto.getValor());
+            contaRepositorio.save(emissor);
+            contaRepositorio.save(destino);
+            return contaRepositorio.findAllById(Arrays.asList(emissor.getId(), destino.getId()));
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Conta não localizada, verifique e tente novamente.");
+        }
+    }
+
+    public void validaValorDeposito(double valor){
+        if (valor <= 0){
+            throw new ValorInvalidoException("O valor para deposito deve ser maior que zero (0).");
+        }
+    }
+
+    public void validaValorSaque(Conta conta, double valor){
+        if (valor > conta.getSaldo()){
+            throw new ValorInvalidoException("Saldo insuficiente.");
+        }
     }
 }

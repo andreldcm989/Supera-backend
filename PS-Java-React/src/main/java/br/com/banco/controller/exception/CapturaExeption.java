@@ -11,7 +11,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.banco.service.exception.ValorDepositoInvalidoException;
+import br.com.banco.service.exception.ValorInvalidoException;
 
 @ControllerAdvice
 public class CapturaExeption {
@@ -38,8 +38,8 @@ public class CapturaExeption {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(erro);
     }
 
-    @ExceptionHandler(ValorDepositoInvalidoException.class)
-    public ResponseEntity<ResponseErrorFormatter> valorInvalido(ValorDepositoInvalidoException e, HttpServletRequest request){
+    @ExceptionHandler(ValorInvalidoException.class)
+    public ResponseEntity<ResponseErrorFormatter> valorInvalido(ValorInvalidoException e, HttpServletRequest request){
         ResponseErrorFormatter erro = new ResponseErrorFormatter(Instant.now()
             , HttpStatus.BAD_REQUEST.value(), 
             "Valor inválido", 
