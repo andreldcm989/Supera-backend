@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch BancoApplication",
+            "request": "launch",
+            "mainClass": "br.com.banco.BancoApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-BancoApplication<banco>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
