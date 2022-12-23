@@ -29,8 +29,8 @@ public class ContaService {
         return contaRepositorio.findById(id).orElseThrow(() -> new EntityNotFoundException("Conta não localizada."));
     }
 
-    public Conta editar(Conta conta){
-        Conta atual = contaRepositorio.getReferenceById(conta.getId());
+    public Conta editar(int id, Conta conta){
+        Conta atual = contaRepositorio.getReferenceById(id);
         if (atual == null) {
             throw new EntityNotFoundException("Conta não localizada.");
         }
