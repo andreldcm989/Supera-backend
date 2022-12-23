@@ -45,14 +45,14 @@ public class BancoApplication implements CommandLineRunner{
         TipoTransacao t3 = new TipoTransacao("TRANSFERENCIA");
         tipoRepositorio.saveAll(Arrays.asList(t1, t2, t3));
 
+        c1.deposita(100);
         Operacao o1 = new Operacao(100, t1, c1);
+        c3.deposita(150);
         Operacao o2 = new Operacao(150, t1, c3);
+        c2.deposita(50);
         Operacao o3 = new Operacao(50, t1, c2);
         operacaoRepositorio.saveAll(Arrays.asList(o1, o2, o3));
 
-        c1.deposita(o1.getValor());
-        c3.deposita(o2.getValor());
-        c2.deposita(o3.getValor());
 
         contaRepositorio.saveAll(Arrays.asList(c1, c2, c3));
 

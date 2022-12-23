@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.banco.model.Conta;
 import br.com.banco.repositorios.ContaRepositorio;
+import br.com.banco.service.exception.ValorDepositoInvalidoException;
 
 @Service
 public class ContaService {
@@ -49,5 +50,14 @@ public class ContaService {
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Objeto não encontrado.");
         }
+    }
+
+    public Conta deposita(int idConta, double valor){
+        if(valor <= 0){
+            throw new ValorDepositoInvalidoException();
+        }
+        Conta conta = contaRepositorio.getReferenceById(idConta);
+        conta.deposita(valor);
+        return contaRepositorio.save(conta);
     }
 }

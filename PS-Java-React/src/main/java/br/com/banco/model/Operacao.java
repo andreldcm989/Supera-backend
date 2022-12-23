@@ -37,6 +37,9 @@ public class Operacao implements Serializable{
     
     @Column(length = 50, nullable = true)
     private String nomeOperadorTransacao;
+
+    @Column(nullable = false, length = 20, precision = 2)
+    private double saldoAtualizado;
     
     @ManyToOne
     @JoinColumn(name = "conta_id")
@@ -47,6 +50,7 @@ public class Operacao implements Serializable{
         this.valor = valor;
         this.tipo = tipo;
         this.conta = conta;
+        this.saldoAtualizado = conta.getSaldo();
     }
 
 
@@ -56,7 +60,10 @@ public class Operacao implements Serializable{
         this.tipo = tipo;
         this.nomeOperadorTransacao = nomeOperadorTransacao;
         this.conta = conta;
+        this.saldoAtualizado = conta.getSaldo();
     }
+
+
 
     
 }
