@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,8 +31,7 @@ public class Operacao implements Serializable{
     @Column(nullable = false, length = 20, precision = 2)
     private double valor;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 15, nullable = false)
+    @Column(length = 30, nullable = false)
     private TipoTransacao tipo;
     
     @Column(length = 50, nullable = true)
