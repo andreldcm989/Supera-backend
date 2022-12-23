@@ -1,4 +1,4 @@
-package br.com.banco.enums;
+package br.com.banco.model;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tb_tipos_operacoes")
+@Table(name = "tb_tipo_operacao")
 @NoArgsConstructor
 @Getter
 public class TipoTransacao implements Serializable{

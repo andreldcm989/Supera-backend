@@ -10,9 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import br.com.banco.enums.TipoTransacao;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,7 +31,8 @@ public class Operacao implements Serializable{
     @Column(nullable = false, length = 20, precision = 2)
     private double valor;
 
-    @Column(length = 30, nullable = false)
+    @OneToOne
+    @JoinColumn(name = "id_tipo_transacao")
     private TipoTransacao tipo;
     
     @Column(length = 50, nullable = true)

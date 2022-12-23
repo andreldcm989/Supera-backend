@@ -51,4 +51,17 @@ public class Conta implements Serializable {
         operacoes.remove(operacao);
     }
 
+    public void saca(double valor){
+        this.saldo-=valor;
+    }
+
+    public void transfere(double valor, Conta conta){
+        this.saldo -= valor;
+        conta.saldo += valor;
+    }
+
+    public void deposita(double valor){
+        this.saldo += valor;
+    }
+
 }
