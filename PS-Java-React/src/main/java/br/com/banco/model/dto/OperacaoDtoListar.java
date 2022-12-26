@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OperacaoDtoListar implements Serializable{
     
+    private int idConta;
     private String dataOperacao; 
     private double valor;
     private String tipo;
@@ -18,6 +19,7 @@ public class OperacaoDtoListar implements Serializable{
     private double saldoAtualizado;
 
     public OperacaoDtoListar(Operacao operacao) {
+        idConta = operacao.getConta().getId();
         dataOperacao = operacao.getDataOperacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
         valor = operacao.getValor();
         tipo = operacao.getTipo().getNome();

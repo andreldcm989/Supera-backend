@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class TransferenciaDto implements Serializable{
     
     private int idTipoTransacao;
-    private int idContaEmissora;
+    private int idConta;
     private int idContaDestino;
     private double valor;
 }

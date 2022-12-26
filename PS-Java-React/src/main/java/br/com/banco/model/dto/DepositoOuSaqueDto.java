@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class DepositoDto implements Serializable{
+public class DepositoOuSaqueDto implements Serializable{
     
     private int idTipoTransacao;
     private int idConta;

@@ -40,11 +40,23 @@ public class CapturaExeption {
 
     @ExceptionHandler(ValorInvalidoException.class)
     public ResponseEntity<ResponseErrorFormatter> valorInvalido(ValorInvalidoException e, HttpServletRequest request){
-        ResponseErrorFormatter erro = new ResponseErrorFormatter(Instant.now()
-            , HttpStatus.BAD_REQUEST.value(), 
-            "Valor inválido", 
-            e.getMessage(),
-            request.getRequestURI());
+        ResponseErrorFormatter erro = new ResponseErrorFormatter(
+            Instant.now()
+            ,HttpStatus.BAD_REQUEST.value() 
+            ,"Valor inválido"
+            ,e.getMessage()
+            ,request.getRequestURI());
+        return ResponseEntity.badRequest().body(erro);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ResponseErrorFormatter> argumentoIlegal(IllegalArgumentException e, HttpServletRequest request){
+        ResponseErrorFormatter erro = new ResponseErrorFormatter(
+            Instant.now()
+            , HttpStatus.BAD_REQUEST.value()
+            , "Argumento inválido"
+            , e.getMessage()
+            , request.getRequestURI());
         return ResponseEntity.badRequest().body(erro);
     }
 }

@@ -9,10 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.banco.model.Conta;
-import br.com.banco.model.Operacao;
 import br.com.banco.model.TipoTransacao;
 import br.com.banco.repositorios.ContaRepositorio;
-import br.com.banco.repositorios.OperacaoRepositorio;
 import br.com.banco.repositorios.TipoTransacaoRepositorio;
 
 @SpringBootApplication
@@ -28,9 +26,6 @@ public class BancoApplication implements CommandLineRunner{
 
     @Autowired
     private TipoTransacaoRepositorio tipoRepositorio;
-
-    @Autowired
-    private OperacaoRepositorio operacaoRepositorio;
     
     @Override
     public void run(String... args) throws Exception {
@@ -44,17 +39,6 @@ public class BancoApplication implements CommandLineRunner{
         TipoTransacao t2 = new TipoTransacao("SAQUE");
         TipoTransacao t3 = new TipoTransacao("TRANSFERENCIA");
         tipoRepositorio.saveAll(Arrays.asList(t1, t2, t3));
-
-        c1.deposita(100);
-        Operacao o1 = new Operacao(100, t1, c1);
-        c3.deposita(150);
-        Operacao o2 = new Operacao(150, t1, c3);
-        c2.deposita(50);
-        Operacao o3 = new Operacao(50, t1, c2);
-        operacaoRepositorio.saveAll(Arrays.asList(o1, o2, o3));
-
-
-        contaRepositorio.saveAll(Arrays.asList(c1, c2, c3));
 
     }
 }

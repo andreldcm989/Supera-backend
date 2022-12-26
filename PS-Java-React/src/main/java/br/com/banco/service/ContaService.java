@@ -12,7 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.banco.model.Conta;
-import br.com.banco.model.dto.DepositoDto;
+import br.com.banco.model.dto.DepositoOuSaqueDto;
 import br.com.banco.model.dto.TransferenciaDto;
 import br.com.banco.repositorios.ContaRepositorio;
 import br.com.banco.service.exception.ValorInvalidoException;
@@ -55,7 +55,7 @@ public class ContaService {
         }
     }
 
-    public Conta deposita(DepositoDto dto){
+    public Conta deposita(DepositoOuSaqueDto dto){
         try {            
             Conta conta = contaRepositorio.getReferenceById(dto.getIdConta());
             validaValorDeposito(dto.getValor());
@@ -68,7 +68,7 @@ public class ContaService {
 
     public List<Conta> transfere(TransferenciaDto dto){
         try {
-            Conta emissor = contaRepositorio.getReferenceById(dto.getIdContaEmissora());
+            Conta emissor = contaRepositorio.getReferenceById(dto.getIdConta());
             Conta destino = contaRepositorio.getReferenceById(dto.getIdContaDestino());
             validaValorDeposito(dto.getValor());
             validaValorSaque(emissor, dto.getValor());
@@ -77,6 +77,17 @@ public class ContaService {
             contaRepositorio.save(emissor);
             contaRepositorio.save(destino);
             return contaRepositorio.findAllById(Arrays.asList(emissor.getId(), destino.getId()));
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Conta não localizada, verifique e tente novamente.");
+        }
+    }
+
+    public Conta saca(int idConta, double valor){
+        try {
+            Conta conta = contaRepositorio.getReferenceById(idConta);
+            validaValorSaque(conta, valor);
+            conta.saca(valor);
+            return contaRepositorio.save(conta);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Conta não localizada, verifique e tente novamente.");
         }
